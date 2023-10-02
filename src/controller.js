@@ -13,12 +13,7 @@ const handlePostRequest = async (req, res) => {
       media: {
         mimeType: req.file?.mimetype,
         body: fs.createReadStream(
-          path.join(
-            __dirname,
-            "..",
-            "upload",
-            req.file.filename
-          )
+          path.join(__dirname, "..", "upload", req.file.filename)
         ),
       },
     });
@@ -40,7 +35,7 @@ const handlePostRequest = async (req, res) => {
     const mergedData = { ...result.data, ...file.data };
     console.log(mergedData);
     await fs.unlink(
-      path.join(__dirname, "upload", req.file.filename),
+      path.join(__dirname, "..", "upload", req.file.filename),
       async () => {
         const mongoFile = await File.create(mergedData);
         res.status(200).json({
@@ -52,9 +47,7 @@ const handlePostRequest = async (req, res) => {
       }
     );
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: err.message, stack: err.stack });
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 };
 
@@ -79,9 +72,7 @@ const handleGetVideo = async (req, res) => {
       redirectUrl: "",
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: err.message, stack: err.stack });
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 };
 
@@ -112,9 +103,7 @@ const handleGetVideos = async (req, res) => {
       redirectUrl: "",
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: err.message, stack: err.stack });
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 };
 

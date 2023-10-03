@@ -14,21 +14,11 @@ connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("./upload"));
+app.use(express.static(join(__dirname, "..", "upload")));
 // app.set("view engine", "ejs");
 // app.set("views", join(__dirname, "views"));
 
 app.post("/upload", upload.single("video"), handlePostRequest);
-app.post("/uploads", upload.single("video"), async (req, res) => {
-  console.log(req.file);
-  const videoFile = req.file;
-  if (!videoFile) {
-    return res.send("no file");
-  }
-  const path = "uploads/" + videoFile.filename;
-  await fs.writeFile(path, videoFile.buffer(), (err) => console.log(err));
-  res.status(200).json({ msg: "success" });
-});
 
 app.get("/videos/:id", handleGetVideo);
 app.get("/videos", handleGetVideos);
